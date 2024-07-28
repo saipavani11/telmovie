@@ -167,35 +167,38 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // making the cards active on the main-container
 
-document.addEventListener('DOMContentLoaded',function() {
-    let series_img = document.getElementsByClassName('series-img-details');
-    let movie_img = document.getElementsByClassName('movie-img-details');
-    // let container = document.getElementById('series');
+document.addEventListener('DOMContentLoaded', function() {
+    let seriesImgContainers = document.getElementsByClassName('series-img-container');
+    let movieImgContainers = document.getElementsByClassName('movies-img-container');
 
-    function addActiveClass(event){
+    function addActiveClass(event) {
         event.currentTarget.classList.add('active');
-        // container.classList.add('active');
         console.log('working');
-        
     }
-    function removeActiveClass(event){
-        if(!event.currentTarget.contains(event.relatedTarget)){
+
+    function removeActiveClass(event) {
+        if (!event.currentTarget.contains(event.relatedTarget)) {
             event.currentTarget.classList.remove('active');
-            // container.classList.remove('active');
             console.log('mouseout');
         }
     }
 
-    Array.from(series_img).forEach(series_img => {
-        series_img.addEventListener('mouseenter',addActiveClass);
-        series_img.addEventListener('mouseleave',removeActiveClass);
-    })
+    // Add event listeners to the parent elements
+    Array.from(seriesImgContainers).forEach(container => {
+        let parent = container.closest('.series-img-details');
+        if (parent) {
+            container.addEventListener('mouseenter', () => parent.classList.add('active'));
+            parent.addEventListener('mouseleave', removeActiveClass);
+        }
+    });
 
-    Array.from(movie_img).forEach(movie_img => {
-        movie_img.addEventListener('mouseenter',addActiveClass);
-        movie_img.addEventListener('mouseleave',removeActiveClass);
-    })
-
+    Array.from(movieImgContainers).forEach(container => {
+        let parent = container.closest('.movie-img-details');
+        if (parent) {
+            container.addEventListener('mouseenter', () => parent.classList.add('active'));
+            parent.addEventListener('mouseleave', removeActiveClass);
+        }
+    });
 });
 
 // activating each button (watch now and heart) of the card
@@ -239,6 +242,7 @@ document.addEventListener('DOMContentLoaded',function () {
     })
 });
 
+// slide in effect of the cards
 document.addEventListener('DOMContentLoaded',function(){
     window.addEventListener('scroll',reveal);
 
